@@ -8,7 +8,7 @@ export class PersonalEC2Stack extends cdk.Stack {
 	constructor(scope: Construct, id: string, props?: cdk.StackProps) {
 		super(scope, id, props);
 
-		const vpc = new ec2.Vpc(this, "PesonalVpc", {
+		const vpc = new ec2.Vpc(this, "PersonalVpc", {
 			maxAzs: 1,
 			natGateways: 1
 		});
