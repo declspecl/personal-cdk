@@ -22,7 +22,7 @@ export class PersonalEC2Stack extends cdk.Stack {
 
 		const keyPair = ec2.KeyPair.fromKeyPairName(this, "PersonalKeyPair", "personal-key-pair");
 
-		const instance = new ec2.Instance(this, "DockerInstance", {
+		const instance = new ec2.Instance(this, "PersonalEC2Instance", {
 			vpc,
 			instanceType: ec2.InstanceType.of(ec2.InstanceClass.T4G, ec2.InstanceSize.MICRO),
 			machineImage: ec2.MachineImage.latestAmazonLinux2023({ cpuType: ec2.AmazonLinuxCpuType.ARM_64 }),
@@ -44,7 +44,7 @@ export class PersonalEC2Stack extends cdk.Stack {
 			"chown ec2-user:ec2-user /var/docker-app"
 		);
 
-		new cdk.CfnOutput(this, "InstancePublicIP", {
+		new cdk.CfnOutput(this, "PersonalEC2InstancePublicIP", {
 			value: instance.instancePublicIp
 		});
 	}
