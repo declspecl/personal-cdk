@@ -1,0 +1,22 @@
+version: "3.8"
+services:
+    # nginx:
+    #     image: nginx:alpine
+    #     ports:
+    #         - "80:80"
+    #     volumes:
+    #         - /var/www/personle:/usr/share/nginx/html:ro
+
+    # springboot:
+    #     image: your-springboot-image
+    #     ports:
+    #         - "8080:8080"
+    #     environment:
+    #         - SPRING_PROFILES_ACTIVE=prod
+
+    # rails:
+    #     image: your-rails-image
+    #     ports:
+    #         - "3000:3000"
+    #     environment:
+    #         - RAILS_ENV=production
