@@ -43,6 +43,7 @@ export class PersonalEC2Stack extends cdk.Stack {
 			"mkdir -p /var/docker-app",
 			"chown ec2-user:ec2-user /var/docker-app"
 		);
+		cdk.Tags.of(instance).add("Reserved", "true");
 
 		new cdk.CfnOutput(this, "PersonalEC2InstancePublicIP", {
 			value: instance.instancePublicIp
