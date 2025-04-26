@@ -47,14 +47,7 @@ export class PersonalEC2Stack extends cdk.Stack {
 
 			// Create directory for your apps
 			"mkdir -p /var/docker-app",
-			"chown ec2-user:ec2-user /var/docker-app",
-			"cd /var/docker-app",
-			`cat <<'EOF' > /var/docker-app/docker-compose.yml\n${dockerComposeContent}\nEOF`,
-
-			// Pull Docker images and start containers
-			"cd /var/docker-app",
-			"docker-compose pull",
-			"docker-compose up -d"
+			"chown ec2-user:ec2-user /var/docker-app"
 		);
 		cdk.Tags.of(instance).add("Reserved", "true");
 
