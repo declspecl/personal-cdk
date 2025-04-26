@@ -58,8 +58,25 @@ export class PersonalEC2Stack extends cdk.Stack {
 		);
 		cdk.Tags.of(instance).add("Reserved", "true");
 
-		new cdk.CfnOutput(this, "PersonalEC2InstancePublicIP", {
+		const eip = new ec2.CfnEIP(this, "PersonalElasticIP", {
+			domain: "vpc",
+			tags: [
+				{
+					key: "Name",
+					value: "PersonalInstanceEIP"
+				}
+			]
+		});
+		new ec2.CfnEIPAssociation(this, "PersonalElasticIPAssociation", {
+			eip: eip.ref,
+			instanceId: instance.instanceId
+		});
+
+		new cdk.CfnOutput(this, "PersonalEC2InstancePublicIPOutput", {
 			value: instance.instancePublicIp
+		});
+		new cdk.CfnOutput(this, "PersonalElasticIPOutput", {
+			value: eip.ref
 		});
 	}
 }
