@@ -27,7 +27,7 @@ export class PersonalEC2Stack extends cdk.Stack {
 			instanceType: ec2.InstanceType.of(ec2.InstanceClass.T4G, ec2.InstanceSize.MICRO),
 			machineImage: ec2.MachineImage.latestAmazonLinux2023({ cpuType: ec2.AmazonLinuxCpuType.ARM_64 }),
 			securityGroup,
-			keyName: keyPair.keyPairName
+			keyPair
 		});
 		instance.addUserData(
 			// Install Docker
