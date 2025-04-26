@@ -28,6 +28,7 @@ export class PersonalEC2Stack extends cdk.Stack {
 
 		const instance = new ec2.Instance(this, "PersonalEC2Instance", {
 			vpc,
+			vpcSubnets: { subnetType: ec2.SubnetType.PUBLIC },
 			instanceType: ec2.InstanceType.of(ec2.InstanceClass.T4G, ec2.InstanceSize.MICRO),
 			machineImage: ec2.MachineImage.latestAmazonLinux2023({ cpuType: ec2.AmazonLinuxCpuType.ARM_64 }),
 			securityGroup,
