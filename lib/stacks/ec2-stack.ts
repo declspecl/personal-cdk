@@ -3,6 +3,7 @@ import * as path from "path";
 import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
+import * as iam from "aws-cdk-lib/aws-iam";
 
 export class PersonalEC2Stack extends cdk.Stack {
 	constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -28,6 +29,12 @@ export class PersonalEC2Stack extends cdk.Stack {
 
 		const keyPair = ec2.KeyPair.fromKeyPairName(this, "PersonalKeyPair", "personal-key-pair");
 
+		const instanceRole = new iam.Role(this, "PersonalEC2InstanceRole", {
+			assumedBy: new iam.ServicePrincipal("ec2.amazonaws.com")
+		});
+		instanceRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName("AmazonEC2ContainerRegistryReadOnly"));
+		instanceRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName("AmazonS3ReadOnlyAccess"));
+
 		const instance = new ec2.Instance(this, "PersonalEC2Instance", {
 			instanceName: "PersonalEC2Instance",
 			vpc,
@@ -35,7 +42,9 @@ export class PersonalEC2Stack extends cdk.Stack {
 			instanceType: ec2.InstanceType.of(ec2.InstanceClass.T4G, ec2.InstanceSize.MICRO),
 			machineImage: ec2.MachineImage.latestAmazonLinux2023({ cpuType: ec2.AmazonLinuxCpuType.ARM_64 }),
 			securityGroup,
-			keyPair
+			keyPair,
+			role: instanceRole,
+			allowAllOutbound: true
 		});
 		instance.addUserData(
 			// Update & install Docker
