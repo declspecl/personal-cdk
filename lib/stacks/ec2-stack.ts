@@ -9,11 +9,13 @@ export class PersonalEC2Stack extends cdk.Stack {
 		super(scope, id, props);
 
 		const vpc = new ec2.Vpc(this, "PersonalVpc", {
+			vpcName: "PersonalVPC",
 			maxAzs: 1,
 			natGateways: 1
 		});
 
 		const securityGroup = new ec2.SecurityGroup(this, "PersonalSG", {
+			securityGroupName: "PersonalSecurityGroup",
 			vpc,
 			description: "Allow HTTP, HTTPS and SSH",
 			allowAllOutbound: true
@@ -27,6 +29,7 @@ export class PersonalEC2Stack extends cdk.Stack {
 		const keyPair = ec2.KeyPair.fromKeyPairName(this, "PersonalKeyPair", "personal-key-pair");
 
 		const instance = new ec2.Instance(this, "PersonalEC2Instance", {
+			instanceName: "PersonalEC2Instance",
 			vpc,
 			vpcSubnets: { subnetType: ec2.SubnetType.PUBLIC },
 			instanceType: ec2.InstanceType.of(ec2.InstanceClass.T4G, ec2.InstanceSize.MICRO),
